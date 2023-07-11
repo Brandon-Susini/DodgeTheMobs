@@ -1,0 +1,69 @@
+[gd_scene load_steps=10 format=3 uid="uid://daxsofws64t6u"]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_m2gvb"]
+[ext_resource type="Texture2D" uid="uid://d1w7era0qccbu" path="res://art/enemyFlyingAlt_1.png" id="1_peoak"]
+[ext_resource type="Texture2D" uid="uid://kun14l3glnk" path="res://art/enemyFlyingAlt_2.png" id="2_kyrdc"]
+[ext_resource type="Texture2D" uid="uid://bso3ui4yq74vg" path="res://art/enemySwimming_1.png" id="3_b8161"]
+[ext_resource type="Texture2D" uid="uid://4fwpn6d7dmpv" path="res://art/enemySwimming_2.png" id="4_ldgfd"]
+[ext_resource type="Texture2D" uid="uid://xodjg8bl6str" path="res://art/enemyWalking_1.png" id="5_78cus"]
+[ext_resource type="Texture2D" uid="uid://c656qveftd3oq" path="res://art/enemyWalking_2.png" id="6_3i7pn"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mxtre"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_peoak")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_kyrdc")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_b8161")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ldgfd")
+}],
+"loop": true,
+"name": &"swim",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_78cus")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_3i7pn")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 3.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_atxdx"]
+radius = 35.0
+height = 100.0
+
+[node name="Enemy" type="RigidBody2D" groups=["enemies"]]
+position = Vector2(240, 303)
+collision_mask = 0
+gravity_scale = 2.66454e-15
+script = ExtResource("1_m2gvb")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["enemies"]]
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_mxtre")
+animation = &"fly"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemies"]]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_atxdx")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." groups=["enemies"]]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
